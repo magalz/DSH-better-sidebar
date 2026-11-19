@@ -26,10 +26,16 @@ jobs:
         with:
           # Tests run git log against this repository and need the full history.
           fetch-depth: 0
-      # pnpm version is pinned via packageManager in package.json; the action
-      # reads it from there (specifying both makes action-setup fail on
-      # purpose with ERR_PNPM_BAD_PM_VERSION).
+      # pnpm is pinned via the `version:` input, NOT via package.json's
+      # `packageManager`: a pin there forces DSH's bundled pnpm (11.28.5)
+      # into a self-switch when it prepares this git-hosted plugin, which on
+      # Windows provisions an empty store/v11/links/@/pnpm/<version> entry
+      # and dies on the missing node_modules/pnpm/bin/pnpm.mjs
+      # (ERR_PNPM_PREPARE_PACKAGE). The prepare step now runs with the host
+      # pnpm; CI keeps the exact version the lockfile was cut with.
       - uses: pnpm/action-setup@v6
+        with:
+          version: 11.8.0
       - uses: actions/setup-node@v7
         with:
           node-version: 22
@@ -82,10 +88,16 @@ jobs:
         with:
           # Tests run git log against this repository and need the full history.
           fetch-depth: 0
-      # pnpm version is pinned via packageManager in package.json; the action
-      # reads it from there (specifying both makes action-setup fail on
-      # purpose with ERR_PNPM_BAD_PM_VERSION).
+      # pnpm is pinned via the `version:` input, NOT via package.json's
+      # `packageManager`: a pin there forces DSH's bundled pnpm (11.28.5)
+      # into a self-switch when it prepares this git-hosted plugin, which on
+      # Windows provisions an empty store/v11/links/@/pnpm/<version> entry
+      # and dies on the missing node_modules/pnpm/bin/pnpm.mjs
+      # (ERR_PNPM_PREPARE_PACKAGE). The prepare step now runs with the host
+      # pnpm; CI keeps the exact version the lockfile was cut with.
       - uses: pnpm/action-setup@v6
+        with:
+          version: 11.8.0
       - uses: actions/setup-node@v7
         with:
           node-version: 22
@@ -158,10 +170,16 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      # pnpm version is pinned via packageManager in package.json; the action
-      # reads it from there (specifying both makes action-setup fail on
-      # purpose with ERR_PNPM_BAD_PM_VERSION).
+      # pnpm is pinned via the `version:` input, NOT via package.json's
+      # `packageManager`: a pin there forces DSH's bundled pnpm (11.28.5)
+      # into a self-switch when it prepares this git-hosted plugin, which on
+      # Windows provisions an empty store/v11/links/@/pnpm/<version> entry
+      # and dies on the missing node_modules/pnpm/bin/pnpm.mjs
+      # (ERR_PNPM_PREPARE_PACKAGE). The prepare step now runs with the host
+      # pnpm; CI keeps the exact version the lockfile was cut with.
       - uses: pnpm/action-setup@v6
+        with:
+          version: 11.8.0
 
       - uses: actions/setup-node@v7
         with:
